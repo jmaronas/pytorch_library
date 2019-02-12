@@ -135,7 +135,7 @@ def average_confidence_per_bin(predicted,n_bins=10,apply_softmax=True):
 
 	prob=numpy.linspace(0,1,n_bins+1)
 	conf=numpy.linspace(0,1,n_bins+1)
-	accuracy,index = torch.max(predicted_prob,1)
+	max_confidence,index = torch.max(predicted_prob,1)
 
 	samples_per_bin=[]
 
@@ -143,16 +143,15 @@ def average_confidence_per_bin(predicted,n_bins=10,apply_softmax=True):
 		#find elements with probability in between p and p+1
 		min_=prob[p]
 		max_=prob[p+1]
-		
-		boolean_upper = accuracy<=max_
+		boolean_upper = max_confidence<=max_
 
 		if p==0:#we include the first element in bin
-			boolean_down =accuracy>=min_
+			boolean_down =max_confidence>=min_
 		else:#after that we included in the previous bin
-			boolean_down =accuracy>min_
+			boolean_down =max_confidence>min_
 
 		index_range=boolean_down & boolean_upper
-		prob_sel=accuracy[index_range]
+		prob_sel=max_confidence[index_range]
 		
 		if len(prob_sel)==0:
 			conf[p]=0.0
@@ -166,6 +165,59 @@ def average_confidence_per_bin(predicted,n_bins=10,apply_softmax=True):
 	prob=prob[0:-1]
 
 	return conf,prob,samples_per_bin
+
+def confidence_per_bin(predicted,n_bins=10,apply_softmax=True):
+
+	if type(predicted) is numpy.ndarray and predicted.dtype==numpy.float32:
+		predicted=torch.from_numpy(predicted)
+	elif type(predicted) is torch.Tensor and predicted.dtype is torch.float32:
+		pass
+	else:
+		raise Exception("Either torch.FloatTensor or numpy.ndarray type float32 expected")
+		exit(-1)
+
+	if apply_softmax:
+		predicted_prob=softmax(predicted,dim=1).data
+	else:
+		predicted_prob=predicted.data
+	
+
+	prob=numpy.linspace(0,1,n_bins+1)
+	conf=numpy.linspace(0,1,n_bins+1)
+	max_confidence,index = torch.max(predicted_prob,1)
+
+	samples_per_bin=[]
+	conf_values_per_bin=[]
+
+	for p in range(len(prob)-1):
+		#find elements with probability in between p and p+1
+		min_=prob[p]
+		max_=prob[p+1]
+		
+		boolean_upper = max_confidence<=max_
+
+		if p==0:#we include the first element in bin
+			boolean_down =max_confidence>=min_
+		else:#after that we included in the previous bin
+			boolean_down =max_confidence>min_
+
+		index_range=boolean_down & boolean_upper
+		prob_sel=max_confidence[index_range]
+		
+		if len(prob_sel)==0:
+			conf_values_per_bin.append([0.0])
+		else:
+			conf_values_per_bin.append(prob_sel)
+
+		samples_per_bin.append(len(prob_sel))
+
+	samples_per_bin=numpy.array(samples_per_bin)
+	conf=conf[0:-1]
+	prob=prob[0:-1]
+
+	return conf_values_per_bin,prob,samples_per_bin
+
+
 
 def compute_ECE(acc_bin,conf_bin,samples_per_bin):
 	assert len(acc_bin)==len(conf_bin)

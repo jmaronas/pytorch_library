@@ -5,8 +5,8 @@ if torch.__version__ != '1.0.0':
 import torch.nn.functional as F
 import math
 
-epsilon=(torch.ones(1,)*1e-11).cuda()
-pi=(torch.ones(1,)*float(math.pi)).cuda()
+epsilon=(torch.ones(1,)*1e-11)
+pi=(torch.ones(1,)*float(math.pi))
 
 #computes the gaussian kullback lieber divergence of two matrix representing (batch,dimensions)
 def DKL_gaussian(mean_q,logvar_q,mean_p,logvar_p,reduce_batch_dim=False,reduce_sample_dim=False):
