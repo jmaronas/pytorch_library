@@ -107,6 +107,12 @@ def Entropy_gaussian(mean_p,logvar_p):
 	entropy = 0.5*(torch.log(var) + torch.log(2*pi) + 1)
 	return entropy
 
+def Entropy_categorical(p):
+	'''
+	Computes the differential entropy of a categorical distribution
+	'''
+	return (-1*p*torch.log(p)).sum(1)
+
 
 def sampler(param,shape,return_mean=False,distribution='gauss'):
 	#sample from a gaussian distribution of a given shape
