@@ -1,6 +1,6 @@
 import torch
-if torch.__version__ != '1.0.0':
-        raise RuntimeError('PyTorch version must be 1.0.0')
+if torch.__version__ != '1.2.0':
+        raise RuntimeError('PyTorch version must be 1.2.0')
 import torch.nn as nn
 
 #base class for all the models to allow for dynamic resize of tensor for noises

@@ -1,6 +1,6 @@
 import torch
-if torch.__version__ != '1.0.0':
-	raise RuntimeError('PyTorch version must be 1.0.0')
+if torch.__version__ != '1.2.0':
+	raise RuntimeError('PyTorch version must be 1.2.0')
 
 import torch.nn.functional as F
 import math
@@ -13,7 +13,7 @@ def DKL_gaussian(mean_q,logvar_q,mean_p,logvar_p,reduce_batch_dim=False,reduce_s
 	#computes the DKL(q(x)//p(x)) per gaussian of each sample in a batch. Returns (batch,DKL)
 	var_p = torch.exp(logvar_p)
 	var_q = torch.exp(logvar_q)
-	DKL=0.5 * (-1 + logvar_p - logvar_q + (var_q/var_p) + torch.pow(mean_p-mean_q,2)/var_p)
+	DKL = 0.5 * (-1 + logvar_p - logvar_q + (var_q/var_p) + torch.pow(mean_p-mean_q,2)/var_p)
 
 	if reduce_sample_dim and reduce_batch_dim:
 		return DKL.sum()		
