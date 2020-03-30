@@ -9,7 +9,7 @@ import numpy
 import config
 
 ## Compute Calibration Metrics
-def compute_calibration_measures(predictions,true_labels,apply_softmax=True,bins=15):
+def compute_calibration_measures(predictions: torch.tensor ,true_labels: torch.tensor ,apply_softmax: bool ,bins: int) -> list:
 
         predictions = softmax(predictions,1) if apply_softmax else predictions
 
