@@ -1,7 +1,7 @@
 import torch
-if torch.__version__ != '1.2.0':
-        raise RuntimeError('PyTorch version must be 1.2.0')
 import torch.nn as nn
+
+import config
 
 #base class for all the models to allow for dynamic resize of tensor for noises
 class MamasitaNetwork(nn.Module):

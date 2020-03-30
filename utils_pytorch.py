@@ -1,12 +1,15 @@
+# Torch
 import torch
-if torch.__version__ != '1.2.0':
-        raise RuntimeError('PyTorch version must be 1.2.0')
+
+# standard
 import os
 import math
 import shutil
 
-epsilon=torch.ones(1,)*1e-11
-pi=torch.ones(1,)*float(math.pi)
+# custom
+import config
+epsilon = config.epsilon
+pi = config.epsilon 
 
 def select_optimizer(parameters,lr=0.1,mmu=0.9,optim='SGD'):
 	if optim=='SGD':

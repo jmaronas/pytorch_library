@@ -1,11 +1,34 @@
-#torch
+# Torch
 import torch
-if torch.__version__ != '1.2.0':
-        raise RuntimeError('PyTorch version must be 1.2.0')
 from torch.nn.functional import softmax
 
-#python
+# python
 import numpy
+
+# config
+import config
+
+## Compute Calibration Metrics
+def compute_calibration_measures(predictions,true_labels,apply_softmax=True,bins=15):
+
+        predictions = softmax(predictions,1) if apply_softmax else predictions
+
+        ''' ECE and MCE'''
+        acc_bin,prob,samples_per_bin=accuracy_per_bin(predictions,true_labels,n_bins=bins,apply_softmax=False)
+        conf_bin,prob,samples_per_bin=average_confidence_per_bin(predictions,n_bins=bins,apply_softmax=False)
+        ECE,_=compute_ECE(acc_bin,conf_bin,samples_per_bin)
+        MCE,_=compute_MCE(acc_bin,conf_bin,samples_per_bin)
+        
+        '''Brier Score'''
+        max_val=predictions.size(1)
+        t_one_hot=categorical_to_one_hot(true_labels,max_val)
+        BRIER=compute_brier(predictions,t_one_hot)
+
+        ''' NNL '''
+        NNL=((t_one_hot*(-1*torch.log(predictions))).sum(1)).mean()
+
+
+        return ECE,MCE,BRIER,NNL
 
 #compute average confidence
 def average_confidence(predicted,apply_softmax=True):

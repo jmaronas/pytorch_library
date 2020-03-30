@@ -1,12 +1,15 @@
-import torch
-if torch.__version__ != '1.2.0':
-	raise RuntimeError('PyTorch version must be 1.2.0')
 
+# Torch
+import torch
 import torch.nn.functional as F
+
+# Python
 import math
 
-epsilon=(torch.ones(1,)*1e-11)
-pi=(torch.ones(1,)*float(math.pi))
+# custom
+import config
+pi = config.pi
+epsilon = config.epsilon
 
 #computes the gaussian kullback lieber divergence of two matrix representing (batch,dimensions)
 def DKL_gaussian(mean_q,logvar_q,mean_p,logvar_p,reduce_batch_dim=False,reduce_sample_dim=False):
