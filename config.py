@@ -25,7 +25,7 @@ is_linux = 'linux' in platform.platform().lower()
 
 ## Constant definitions
 pi = torch.tensor(math.pi,dtype=dtype).to(device)
-epsilon=(torch.ones(1,)*1e-11)
+epsilon = torch.tensor(1e-11)
 
 ## Callers
 check_torch(torch_version)

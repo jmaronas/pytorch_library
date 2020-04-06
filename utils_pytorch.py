@@ -7,9 +7,7 @@ import math
 import shutil
 
 # custom
-import config
-epsilon = config.epsilon
-pi = config.epsilon 
+from .config import pi, epsilon
 
 def select_optimizer(parameters,lr=0.1,mmu=0.9,optim='SGD'):
 	if optim=='SGD':

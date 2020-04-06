@@ -8,6 +8,9 @@ import numpy
 # config
 import config
 
+#Custom
+from .utils_nnets import categorical_to_one_hot
+
 ## Compute Calibration Metrics
 def compute_calibration_measures(predictions: torch.tensor ,true_labels: torch.tensor ,apply_softmax: bool ,bins: int) -> list:
 

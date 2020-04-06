@@ -7,9 +7,7 @@ import torch.nn.functional as F
 import math
 
 # custom
-import config
-pi = config.pi
-epsilon = config.epsilon
+from .config import pi, epsilon
 
 #computes the gaussian kullback lieber divergence of two matrix representing (batch,dimensions)
 def DKL_gaussian(mean_q,logvar_q,mean_p,logvar_p,reduce_batch_dim=False,reduce_sample_dim=False):
