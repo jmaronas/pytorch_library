@@ -58,7 +58,7 @@ def return_activation(act,dim=1):
 		return nn.Tanh()
 	else:
 		raise NotImplemented
-	
+
 def apply_DeConv(inp,out,kernel,act,shape=None,std=0.0,drop=0.0,bn=True,stride=1,padding=1,output_padding=0):
 	bias = False if bn else True
 
@@ -69,7 +69,7 @@ def apply_DeConv(inp,out,kernel,act,shape=None,std=0.0,drop=0.0,bn=True,stride=1
 	activation=return_activation(act)
 
 	if drop!=0:
-		dropl=nn.Dropout2d(drop)	
+		dropl=nn.Dropout2d(drop)
 
 	if std!=0.0:
 		assert shape!=None
@@ -87,7 +87,7 @@ def apply_DeConv(inp,out,kernel,act,shape=None,std=0.0,drop=0.0,bn=True,stride=1
 		forward_list.append(dropl)
 
 	return nn.Sequential(*forward_list)
-	
+
 
 def apply_conv(inp,out,kernel,act,shape=None,std=0.0,drop=0.0,bn=True,stride=1,padding=1):
 	bias = False if bn else True
@@ -100,7 +100,7 @@ def apply_conv(inp,out,kernel,act,shape=None,std=0.0,drop=0.0,bn=True,stride=1,p
 	activation=return_activation(act)
 
 	if drop!=0:
-		dropl=nn.Dropout2d(drop)	
+		dropl=nn.Dropout2d(drop)
 	if std!=0.0:
 		assert shape!=None
 		nlayer=add_gaussian(shape,std)
@@ -119,14 +119,14 @@ def apply_conv(inp,out,kernel,act,shape=None,std=0.0,drop=0.0,bn=True,stride=1,p
 		forward_list.append(dropl)
 
 	return nn.Sequential(*forward_list)
-		
+
 def apply_pool(kernel):
 	mp=nn.MaxPool2d(kernel)
 	return mp
 
 def apply_DePool(kernel):
 	mp=nn.UpsamplingBilinear2d(kernel)
-	return mp	
+	return mp
 
 def apply_linear(inp,out,act,shape=None,std=0.0,drop=0.0,bn=True):
 	bias = False if bn else True
@@ -136,7 +136,7 @@ def apply_linear(inp,out,act,shape=None,std=0.0,drop=0.0,bn=True):
 		wBN=nn.BatchNorm1d(out)
 	activation=return_activation(act)
 	if drop!=0:
-		dropl=nn.Dropout(drop)	
+		dropl=nn.Dropout(drop)
 	if std!=0.0:
 		assert shape!=None
 		nlayer=add_gaussian(shape,std)
@@ -159,6 +159,6 @@ def apply_linear(inp,out,act,shape=None,std=0.0,drop=0.0,bn=True):
 
 
 def categorical_to_one_hot(t,max_val):
-	one_hot = torch.zeros(t.size(0),max_val)
+	one_hot = torch.zeros(t.size(0),max_val, device=t.device)
 	one_hot.scatter_(1,t.view(-1,1),1)
 	return one_hot
