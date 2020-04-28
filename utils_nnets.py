@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
 
-import config
+from . import config
+
 
 #base class for all the models to allow for dynamic resize of tensor for noises
 class MamasitaNetwork(nn.Module):

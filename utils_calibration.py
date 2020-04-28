@@ -6,7 +6,7 @@ from torch.nn.functional import softmax
 import numpy
 
 # config
-import config
+from . import config
 
 #Custom
 from .utils_nnets import categorical_to_one_hot
@@ -21,7 +21,7 @@ def compute_calibration_measures(predictions: torch.tensor ,true_labels: torch.t
         conf_bin,prob,samples_per_bin=average_confidence_per_bin(predictions,n_bins=bins,apply_softmax=False)
         ECE,_=compute_ECE(acc_bin,conf_bin,samples_per_bin)
         MCE,_=compute_MCE(acc_bin,conf_bin,samples_per_bin)
-        
+
         '''Brier Score'''
         max_val=predictions.size(1)
         t_one_hot=categorical_to_one_hot(true_labels,max_val)
@@ -35,7 +35,7 @@ def compute_calibration_measures(predictions: torch.tensor ,true_labels: torch.t
 
 #compute average confidence
 def average_confidence(predicted,apply_softmax=True):
-	#migrated to version 0.4.0	
+	#migrated to version 0.4.0
 	if type(predicted) is numpy.ndarray and predicted.dtype==numpy.float32:
 		predicted=torch.from_numpy(predicted)
 	elif type(predicted) is torch.Tensor and predicted.dtype is torch.float32:
@@ -49,7 +49,7 @@ def average_confidence(predicted,apply_softmax=True):
 		predicted_prob=predicted.data
 
 	predicted_prob,index = torch.max(predicted_prob,1)
-	
+
 	return predicted_prob.sum().float()/float(predicted_prob.shape[0])
 
 
@@ -62,15 +62,15 @@ def accuracy(predicted,real_tag,apply_softmax=True):
 	else:
 		raise Exception("Either torch.FloatTensor or numpy.ndarray type float32 expected")
 		exit(-1)
-	
+
 	if type(real_tag) is numpy.ndarray and real_tag.dtype==numpy.int64:
 		real_tag=torch.from_numpy(real_tag)
 	elif type(real_tag) is torch.Tensor and real_tag.dtype is torch.int64:
-		pass 
+		pass
 	else:
 		raise Exception("Either torch.LongTensor or numpy.ndarray type int64 expected")
 		exit(-1)
-	
+
 
 
 	if apply_softmax:
@@ -107,7 +107,7 @@ def accuracy_per_bin(predicted,real_tag,n_bins=10,apply_softmax=True):
 		predicted_prob=softmax(predicted,dim=1).data
 	else:
 		predicted_prob=predicted.data
-	
+
 
 	accuracy,index = torch.max(predicted_prob,1)
 	selected_label=index.long()==real_tag
@@ -129,7 +129,7 @@ def accuracy_per_bin(predicted,real_tag,n_bins=10,apply_softmax=True):
 
 		index_range=boolean_down & boolean_upper
 		label_sel=selected_label[index_range]
-		
+
 		if len(label_sel)==0:
 			acc[p]=0.0
 		else:
@@ -157,7 +157,7 @@ def average_confidence_per_bin(predicted,n_bins=10,apply_softmax=True):
 		predicted_prob=softmax(predicted,dim=1).data
 	else:
 		predicted_prob=predicted.data
-	
+
 
 	prob=numpy.linspace(0,1,n_bins+1)
 	conf=numpy.linspace(0,1,n_bins+1)
@@ -178,7 +178,7 @@ def average_confidence_per_bin(predicted,n_bins=10,apply_softmax=True):
 
 		index_range=boolean_down & boolean_upper
 		prob_sel=max_confidence[index_range]
-		
+
 		if len(prob_sel)==0:
 			conf[p]=0.0
 		else:
@@ -206,7 +206,7 @@ def confidence_per_bin(predicted,n_bins=10,apply_softmax=True):
 		predicted_prob=softmax(predicted,dim=1).data
 	else:
 		predicted_prob=predicted.data
-	
+
 
 	prob=numpy.linspace(0,1,n_bins+1)
 	conf=numpy.linspace(0,1,n_bins+1)
@@ -219,7 +219,7 @@ def confidence_per_bin(predicted,n_bins=10,apply_softmax=True):
 		#find elements with probability in between p and p+1
 		min_=prob[p]
 		max_=prob[p+1]
-		
+
 		boolean_upper = max_confidence<=max_
 
 		if p==0:#we include the first element in bin
@@ -229,7 +229,7 @@ def confidence_per_bin(predicted,n_bins=10,apply_softmax=True):
 
 		index_range=boolean_down & boolean_upper
 		prob_sel=max_confidence[index_range]
-		
+
 		if len(prob_sel)==0:
 			conf_values_per_bin.append([0.0])
 		else:
@@ -251,7 +251,7 @@ def compute_ECE(acc_bin,conf_bin,samples_per_bin):
 	total_samples = float(samples_per_bin.sum())
 
 	ece_list=[]
-	for samples,acc,conf in zip(samples_per_bin,acc_bin,conf_bin): 
+	for samples,acc,conf in zip(samples_per_bin,acc_bin,conf_bin):
 		ece_list.append(samples/total_samples*numpy.abs(acc-conf))
 		ece+=samples/total_samples*numpy.abs(acc-conf)
 	return ece,ece_list
@@ -298,6 +298,3 @@ def compute_brier(prob,acc):
 	prob=prob.cpu()
 	acc=acc.cpu()
 	return torch.pow(prob-acc,2).mean()
-
-
-	
