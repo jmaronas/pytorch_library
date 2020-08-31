@@ -2,7 +2,7 @@ import setuptools
 
 
 setuptools.setup(
-    name="pytorchlib", # Replace with your own username
+    name="pytorchlib",
     version="1.5.0",
     author="Juan Maroñas and Sergio Álvarez",
     author_email="jmaronasm@gmail.com",
@@ -10,7 +10,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/jmaronas/pytorch_library",
     long_description="",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages()+['pytorchlib'],
     classifiers=[
                 "Programming Language :: Python :: 3",
                 "License :: OSI Approved :: MIT License",
