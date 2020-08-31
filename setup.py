@@ -9,7 +9,7 @@ setuptools.setup(
     description="Just a common interface for pytorch utils to be bug safe and share our coding",
     long_description_content_type="text/markdown",
     url="https://github.com/jmaronas/pytorch_library",
-    long_description=long_description,
+    long_description="",
     packages=setuptools.find_packages(),
     classifiers=[
                 "Programming Language :: Python :: 3",
