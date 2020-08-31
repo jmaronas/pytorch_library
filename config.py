@@ -17,7 +17,7 @@ def check_torch(torch_version):
                 raise ImportError('Torch does not match correct version {}'.format(torch_version))
 
 ## Config Variables
-torch_version = '1.4.0'
+torch_version = '1.5.0'
 device=check_device()
 dtype = torch.float32
 torch.set_default_dtype(dtype)
