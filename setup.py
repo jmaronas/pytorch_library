@@ -2,7 +2,7 @@ import setuptools
 
 
 setuptools.setup(
-    name="Pytorch Library", # Replace with your own username
+    name="pytorchlib", # Replace with your own username
     version="1.5.0",
     author="Juan Maroñas and Sergio Álvarez",
     author_email="jmaronasm@gmail.com",
