@@ -24,7 +24,7 @@ torch.set_default_dtype(dtype)
 is_linux = 'linux' in platform.platform().lower()
 
 ## Constant definitions
-pi = torch.tensor(math.pi,dtype=dtype).to(device)
+pi = torch.tensor(math.pi,dtype=dtype)
 epsilon = torch.tensor(1e-11)
 
 ## Callers
