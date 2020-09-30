@@ -29,7 +29,7 @@ def compute_calibration_measures(predictions: torch.tensor ,true_labels: torch.t
 
         ''' NNL '''
         # NNL=((t_one_hot*(-1*torch.log(predictions))).sum(1)).mean()
-        NNL = -1*torch.log(predictions[t_one_hot.bool()]) 
+        NNL = -1*torch.log(predictions[t_one_hot.bool()]) .mean()
 
         return ECE,MCE,BRIER,NNL
 
