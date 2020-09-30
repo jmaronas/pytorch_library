@@ -28,8 +28,8 @@ def compute_calibration_measures(predictions: torch.tensor ,true_labels: torch.t
         BRIER=compute_brier(predictions,t_one_hot)
 
         ''' NNL '''
-        NNL=((t_one_hot*(-1*torch.log(predictions))).sum(1)).mean()
-
+        # NNL=((t_one_hot*(-1*torch.log(predictions))).sum(1)).mean()
+        NNL = -1*torch.log(predictions[t_one_hot.bool()]) 
 
         return ECE,MCE,BRIER,NNL
 
