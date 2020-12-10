@@ -8,7 +8,7 @@ setuptools.setup(
     author_email="jmaronasm@gmail.com",
     description="Just a common interface for pytorch utils to be bug safe and share our coding",
     long_description_content_type="text/markdown",
-    url="https://github.com/jmaronas/pytorch_library",
+    url="https://github.com/jmaronas/pytorchlib",
     long_description="",
     packages=setuptools.find_packages()+['pytorchlib'],
     classifiers=[
