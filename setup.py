@@ -2,8 +2,8 @@ import setuptools
 
 
 setuptools.setup(
-    name="version-1.5.0",
-    version="1.5.0",
+    name="version-1.7.0",
+    version="1.7.0",
     author="Juan Maroñas and Sergio Álvarez",
     author_email="jmaronasm@gmail.com",
     description="Just a common interface for pytorch utils to be bug safe and share our coding",
