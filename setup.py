@@ -2,7 +2,7 @@ import setuptools
 
 
 setuptools.setup(
-    name="pytorchlib",
+    name="version-1.5.0",
     version="1.5.0",
     author="Juan Maroñas and Sergio Álvarez",
     author_email="jmaronasm@gmail.com",
